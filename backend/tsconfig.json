@@ -8,8 +8,14 @@
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "target": "esnext",
     "types": [],
+    "emitDeclarationOnly": true, // ATENTION
+    "allowImportingTsExtensions": true,
+    "strictPropertyInitialization": false,
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
