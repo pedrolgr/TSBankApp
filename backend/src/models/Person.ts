@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, type Relation } from "typeorm";
 import { User } from "./User.ts"
 @Entity()
 export class Person {
@@ -15,7 +15,7 @@ export class Person {
     @Column({type: "date"})
     dateOfBirth: Date;
 
-    @OneToOne(() => User)
-    user: User;
+    @OneToOne(() => User, (user) => user.person)
+    user: Relation<Person>;
 
 }

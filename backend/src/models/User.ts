@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, type Relation } from "typeorm";
 import { Person } from "./Person.ts"; 
 
 @Entity()
@@ -13,8 +13,8 @@ export class User {
     @Column()
     password: string;
 
-    @OneToOne(() => Person)
+    @OneToOne(() => Person, (person) => person.user)
     @JoinColumn()
-    person: Person;
+    person: Relation<Person>;
     
 }
