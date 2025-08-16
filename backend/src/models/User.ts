@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, type Relation } from "typeorm";
+import { Account } from "./Account.ts";
 
 @Entity()
 export class User {
@@ -23,5 +24,8 @@ export class User {
 
     @Column()
     password: string;
+
+    @OneToOne(() => Account, account => account.user, { cascade: true })
+    account: Relation<Account>;
     
 }
