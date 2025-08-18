@@ -7,13 +7,13 @@ export type UserRequest = {
     lastName: string;
     dateOfBirth: Date;
     email: string;
-    password: string;
+    hashedPassword: string;
 }
 
 export class UserService {
 
     async createUser({ firstName, lastName, dateOfBirth, email, 
-        password }: UserRequest): Promise<User> {
+        hashedPassword }: UserRequest): Promise<User> {
 
             if(await userRepository.findOneBy({ email })) {
                 throw new Error("User already exists")
@@ -28,7 +28,7 @@ export class UserService {
             user.dateOfBirth = dateOfBirth;
             user.age = 1;
             user.email = email;
-            user.password = password;
+            user.password = hashedPassword;
             user.account = account;
 
             try {
