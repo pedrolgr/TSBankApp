@@ -15,5 +15,5 @@ AppDataSource.initialize().then(() => {
         res.status(400).json({ message: err.message });
     });
 
-    app.listen(3000)
+    app.listen(3001)
 })
