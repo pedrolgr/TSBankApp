@@ -18,18 +18,44 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import axios from 'axios'
 
 function App() {
 
   const [inputValue, setInputValue] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<string[]>([]);
+  
 
   const handleClickMenu = (command: string) => {
     setInputValue(command);
   }
 
-  const handleChatHistory = () => {
-    setChatHistory(prev => [...prev, inputValue]);
+  const handleChatHistory = (newChatMessage:string) => {
+    if(newChatMessage.trim() !== "") {
+      setChatHistory(prev => [...prev, newChatMessage]);
+      
+    }
+    
+  }
+
+  const handleMessage = () => {
+    handleChatHistory(inputValue);
+
+    if(inputValue.startsWith("/register")) {
+      const registerValues = inputValue.split(" ")
+      const data = {
+        firstName: registerValues[1],
+        lastName: registerValues[2],
+        dateOfBirth: registerValues[3],
+        email: registerValues[4],
+        password: registerValues[5],
+      }
+
+      axios.post("http://localhost:3001/user", data)
+      .then(res => console.log(res.data))
+      .catch(err => console.error(err));
+    }
+
     setInputValue("");
   }
 
@@ -54,10 +80,10 @@ function App() {
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-20 bg-[#1f1f1f] text-white" align="start">
             <DropdownMenuGroup>
-              <DropdownMenuItem onClick={() => handleClickMenu("/login")}>
+              <DropdownMenuItem onClick={() => handleClickMenu("/login [email] [password]")}>
                 /login
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleClickMenu("/register")}>
+              <DropdownMenuItem onClick={() => handleClickMenu("/register [firstname] [lastname] [dateofbirth] [email] [password]")}>
                 /register
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleClickMenu("/transfer")}>
@@ -75,13 +101,13 @@ function App() {
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault()
-              handleChatHistory()
+              handleMessage()
             }
           }}
         />
 
         <Button className="w-10 h-10 p-2 bg-[#4dabf7] hover:bg-[#339af0] text-white rounded-full"
-          onClick={handleChatHistory}>
+          onClick={handleMessage}>
           <Send size={20} />
         </Button>
       </div>
