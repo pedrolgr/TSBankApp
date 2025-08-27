@@ -42,6 +42,7 @@ function App() {
     handleChatHistory(inputValue);
 
     if(inputValue.startsWith("/register")) {
+
       const registerValues = inputValue.split(" ")
       const data = {
         firstName: registerValues[1],
@@ -51,8 +52,24 @@ function App() {
         password: registerValues[5],
       }
 
-      axios.post("http://localhost:3001/user", data)
+      axios.post("http://localhost:3005/user", data)
       .then(res => console.log(res.data))
+      .catch(err => console.error(err));
+
+
+    } else if(inputValue.startsWith("/login")) {
+
+      const loginValues = inputValue.split(" ")
+      const data = {
+        email: loginValues[1],
+        password: loginValues[2]
+      }
+
+      axios.post("http://localhost:3005/login", data)
+      .then(res => {
+        console.log(res)
+        localStorage.setItem("token", res.data.token);
+      })
       .catch(err => console.error(err));
     }
 
